@@ -11,7 +11,9 @@ import { db } from './models/index.js';
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
+    console.log("Conectado no MongoDB com sucesso");
   } catch (error) {
+    console.log("Erro ao conectar no MongoDB");
     process.exit();
   }
 })();
@@ -23,7 +25,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: 'https://igti-grades-app-front.herokuapp.com/',
   })
 );
 

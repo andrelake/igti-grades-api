@@ -28,15 +28,15 @@ const create = async (req, res) => {
 };
 
 const findAll = async (req, res) => {
-  // const name = req.query.name;
+  const name = req.query.name;
 
-  // //condicao para o filtro no findAll
-  // var condition = name
-  //   ? { name: { $regex: new RegExp(name), $options: 'i' } }
-  //   : {};
+  //condicao para o filtro no findAll
+  var condition = name
+    ? { name: { $regex: new RegExp(name), $options: 'i' } }
+    : {};
 
   try {
-    const data = await Grade.find();
+    const data = await Grade.find(condition);
     res.send(data);
     logger.info(`GET /grade`);
   } catch (error) {
@@ -116,8 +116,13 @@ const remove = async (req, res) => {
 
 const removeAll = async (req, res) => {
   try {
-    const data = await Grade.remove({});
-    res.send('Todos os documentos excluídos com sucesso');
+    const data = await Grade.deleteMany();
+
+    if (!data) {
+      res.send('Grade não encontrada');
+    } else {
+      res.send('Todos os documentos excluídos com sucesso');
+    }
     logger.info(`DELETE /grade`);
   } catch (error) {
     res.status(500).send({ message: 'Erro ao excluir todos as Grades' });
